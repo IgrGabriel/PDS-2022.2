@@ -1,2 +1,5 @@
 # PDS-2022.2
- Trabalho da disciplina de Projeto e Detalhamento de Software
+
+ Repositório destinado para o trabalho final da disciplina de Projeto Detalhado de Software, produzido pelos alunos Igor Gabriel, Ulisses Alves e Gustavo Brito.
+ 
+ 
