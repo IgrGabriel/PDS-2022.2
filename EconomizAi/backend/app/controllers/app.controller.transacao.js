@@ -43,7 +43,7 @@ exports.findOne = (req, res) => {
       if (!data) {
         return res.status(404).send({
           message:
-            "Mensagem não encontrada com o id " + req.params.transactionId,
+            "Transação não encontrada com o id " + req.params.transactionId,
         });
       }
       res.send(data);
@@ -52,7 +52,7 @@ exports.findOne = (req, res) => {
       if (err.kind === "ObjectId") {
         return res.status(404).send({
           message:
-            "Transacao não foi encontrada pelo id " + req.params.transactionId,
+            "Transação não foi encontrada pelo id " + req.params.transactionId,
         });
       }
       return res.status(500).send({
