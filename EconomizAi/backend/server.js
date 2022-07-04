@@ -43,7 +43,9 @@ app.use(
 
 const PORT = 8080;
 
-require("./app/routes/app.routes.js")(app);
+require("./app/routes/app.route.usuario.js")(app);
+require("./app/routes/app.route.transacao.js")(app);
+require("./app/routes/app.route.categoria.js")(app);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}/`);

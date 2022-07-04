@@ -1,6 +1,6 @@
 const Categoria = require("../model/app.model.categoria.js");
 
-exports.listar = (req, res) => {
+exports.findAll = (req, res) => {
   Categoria.find()
     .then((data) => {
       res.status(200).send(data);

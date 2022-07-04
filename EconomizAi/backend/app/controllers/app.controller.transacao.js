@@ -1,8 +1,9 @@
-const App = require("../model/app.model.js");
+const Transacao = require("../model/app.model.transacao.js");
+const authMiddleware = require("../middlewares/app.middleware.auth.js");
 
 // Criando e salvando um nova transacao
 exports.create = (req, res) => {
-  const transaction = new App({
+  const transaction = new Transacao({
     id: req.params._id,
     data: req.body.data,
     categoria: req.body.categoria,
@@ -24,7 +25,7 @@ exports.create = (req, res) => {
 
 // Buscando todas as transacoes do banco de dados
 exports.findAll = (req, res) => {
-  App.find()
+  Transacao.find()
     .then((data) => {
       res.send(data);
     })
@@ -37,7 +38,7 @@ exports.findAll = (req, res) => {
 
 // Buscando uma unica mensagem com uma transactionId
 exports.findOne = (req, res) => {
-  App.findById(req.params.transactionId)
+  Transacao.findById(req.params.transactionId)
     .then((data) => {
       if (!data) {
         return res.status(404).send({
@@ -63,7 +64,7 @@ exports.findOne = (req, res) => {
 
 // Atualizando uma transação identificada por transactionId em uma requisição
 exports.update = (req, res) => {
-  App.findByIdAndUpdate(
+  Transacao.findByIdAndUpdate(
     req.params.transactionId,
     {
       data: req.body.data,
@@ -101,7 +102,7 @@ exports.update = (req, res) => {
 
 // Deletando uma mensagem com um messageId especificado na requisição
 exports.delete = (req, res) => {
-  App.findByIdAndRemove(req.params.transactionId)
+  Transacao.findByIdAndRemove(req.params.transactionId)
     .then((data) => {
       if (!data) {
         return res.status(404).send({
