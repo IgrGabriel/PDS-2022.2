@@ -1,7 +1,7 @@
 const Transacao = require("../model/app.model.transacao.js");
 const authMiddleware = require("../middlewares/app.middleware.auth.js");
 
-// Criando e salvando um nova transacao
+//Criando e salvando um nova transacao
 exports.create = (req, res) => {
   const transaction = new Transacao({
     id: req.params._id,
@@ -10,6 +10,7 @@ exports.create = (req, res) => {
     valor: req.body.valor,
     descricao: req.body.descricao,
     tipo: req.body.tipo,
+    user: req.userId,
   });
   transaction
     .save()
@@ -34,6 +35,16 @@ exports.findAll = (req, res) => {
         message: err.message || "Ocorreu algum erro ao buscar as transações",
       });
     });
+};
+
+exports.populateList = async (req, res) => {
+  try {
+    const transacao = await Transacao.find().populate("user");
+
+    return res.send({ transacao });
+  } catch (err) {
+    return res.status(400).send({ error: "Erro ao buscar transação" });
+  }
 };
 
 // Buscando uma unica mensagem com uma transactionId

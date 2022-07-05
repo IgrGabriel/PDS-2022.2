@@ -13,4 +13,6 @@ module.exports = (app) => {
   app.put("/transacao/:transactionId", Transacao.update);
 
   app.delete("/transacao/:transactionId", Transacao.delete);
+
+  app.get("/transacaoList", Transacao.populateList);
 };

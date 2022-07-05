@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const TransactionSchema = mongoose.Schema({
   data: {
     type: String,
@@ -17,6 +16,11 @@ const TransactionSchema = mongoose.Schema({
   descricao: {
     type: String,
     default: "Sem descrição",
+  },
+  user: {
+    type: mongoose.ObjectId,
+    ref: "Usuario",
+    required: true,
   },
   tipo: {
     type: String,
