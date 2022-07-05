@@ -47,7 +47,7 @@ exports.populateList = async (req, res) => {
   }
 };
 
-// Buscando uma unica mensagem com uma transactionId
+// Buscando uma unica transação com uma transactionId
 exports.findOne = (req, res) => {
   Transacao.findById(req.params.transactionId)
     .then((data) => {
