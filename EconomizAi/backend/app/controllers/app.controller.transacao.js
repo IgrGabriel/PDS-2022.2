@@ -15,10 +15,10 @@ exports.create = (req, res) => {
   transaction
     .save()
     .then((data) => {
-      res.send(data);
+      res.status(201).send(data);
     })
     .catch((err) => {
-      res.status(500).send({
+      res.status(400).send({
         message: err.message || "Ocorreu algum erro ao adicionar a transação",
       });
     });
@@ -28,10 +28,10 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   Transacao.find()
     .then((data) => {
-      res.send(data);
+      res.status(200).send(data);
     })
     .catch((err) => {
-      res.status(500).send({
+      res.status(404).send({
         message: err.message || "Ocorreu algum erro ao buscar as transações",
       });
     });
@@ -41,9 +41,9 @@ exports.populateList = async (req, res) => {
   try {
     const transacao = await Transacao.find().populate("user");
 
-    return res.send({ transacao });
+    return res.status(200).send({ transacao });
   } catch (err) {
-    return res.status(400).send({ error: "Erro ao buscar transação" });
+    return res.status(404).send({ error: "Erro ao buscar transação" });
   }
 };
 
@@ -57,7 +57,7 @@ exports.findOne = (req, res) => {
             "Transação não encontrada com o id " + req.params.transactionId,
         });
       }
-      res.send(data);
+      res.status(200).send(data);
     })
     .catch((err) => {
       if (err.kind === "ObjectId") {
@@ -66,7 +66,7 @@ exports.findOne = (req, res) => {
             "Transação não foi encontrada pelo id " + req.params.transactionId,
         });
       }
-      return res.status(500).send({
+      return res.status(400).send({
         message:
           "Erro ao buscar transação pelo o id " + req.params.transactionId,
       });
@@ -104,7 +104,7 @@ exports.update = (req, res) => {
             req.params.transactionId,
         });
       }
-      return res.status(500).send({
+      return res.status(400).send({
         message:
           "Erro ao atualizar transação pelo id " + req.params.transactionId,
       });
@@ -130,7 +130,7 @@ exports.delete = (req, res) => {
             "Transação não encontrada pelo o id " + req.params.transactionId,
         });
       }
-      return res.status(500).send({
+      return res.status(400).send({
         message:
           "Não foi possível deletar a transação com o id " +
           req.params.transactionId,
