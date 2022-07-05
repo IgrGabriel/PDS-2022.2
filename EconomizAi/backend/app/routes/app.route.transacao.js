@@ -14,5 +14,13 @@ module.exports = (app) => {
 
   app.delete("/transacao/:transactionId", Transacao.delete);
 
-  app.get("/transacao/listar/user", Transacao.populateList);
+  app.get("/transacao/listar/user/todos", Transacao.populateList);
+
+  app.get("/transacao/listar/user/:userId", Transacao.listTransactiosUser);
+
+  const Main = require("../main/app.main.js");
+
+  app.get("/transacao/calcular/despesas/:userId", Main.calcValueExpense);
+
+  app.get("/transacao/calcular/receitas/:userId", Main.calcValueRevenue);
 };

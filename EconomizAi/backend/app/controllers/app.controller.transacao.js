@@ -37,9 +37,25 @@ exports.findAll = (req, res) => {
     });
 };
 
+// Listar todas as transacoes do bd juntamente com as informações do usuario que a criou
 exports.populateList = async (req, res) => {
   try {
     const transacao = await Transacao.find().populate("user");
+
+    return res.status(200).send({ transacao });
+  } catch (err) {
+    return res.status(404).send({ error: "Erro ao buscar transação" });
+  }
+};
+
+// Listar as transações do usuario pelo id dele
+exports.listTransactiosUser = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const transacao = await Transacao.find({
+      user: req.params.userId,
+    }).populate("user");
 
     return res.status(200).send({ transacao });
   } catch (err) {
