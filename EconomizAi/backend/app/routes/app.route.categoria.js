@@ -11,4 +11,8 @@ module.exports = (app) => {
   app.put("/categoria/:categoryId", Categoria.update);
 
   app.delete("/categoria/:categoryId", Categoria.delete);
+
+  app.get("/categoria/tipo/despesas", Categoria.findAllExpense);
+
+  app.get("/categoria/tipo/receitas", Categoria.findAllRevenue);
 };

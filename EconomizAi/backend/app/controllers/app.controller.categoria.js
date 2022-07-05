@@ -91,3 +91,29 @@ exports.delete = (req, res) => {
       });
     });
 };
+
+// Buscar todas as categorias do tipo despesa
+exports.findAllExpense = (req, res) => {
+  Categoria.find({ tipo: "despesa" })
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      res.status(404).send({
+        message: err.message || "Ocorreu algum erro ao buscar as transações",
+      });
+    });
+};
+
+// Buscar todas as categorias do tipo receita
+exports.findAllRevenue = (req, res) => {
+  Categoria.find({ tipo: "receita" })
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      res.status(404).send({
+        message: err.message || "Ocorreu algum erro ao buscar as transações",
+      });
+    });
+};
