@@ -14,5 +14,5 @@ module.exports = (app) => {
 
   app.delete("/transacao/:transactionId", Transacao.delete);
 
-  app.get("/transacaoList", Transacao.populateList);
+  app.get("/transacao/listar/user", Transacao.populateList);
 };
