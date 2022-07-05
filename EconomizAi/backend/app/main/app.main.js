@@ -4,35 +4,62 @@ const authMiddleware = require("../middlewares/app.middleware.auth.js");
 // Calcular o valor total das despesas
 exports.calcValueExpense = async (req, res) => {
   const user = req.params.userId;
-  const transaction = await Transacao.find({ tipo: "despesa" });
 
-  const valorDespesas = transaction.reduce((total, transacao) => {
-    if (transacao.user == user) {
-      return total + parseFloat(transacao.valor);
-    } else {
-      return total;
+  try {
+    const transaction = await Transacao.find({ tipo: "despesa" });
+
+    const valorDespesas = transaction.reduce((total, transacao) => {
+      if (transacao.user == user) {
+        return total + parseFloat(transacao.valor);
+      } else {
+        return total;
+      }
+    }, 0);
+
+    return res.status(200).send({
+      mensagem: "Valor total das despesas: " + valorDespesas,
+    });
+  } catch (err) {
+    if (err.kind === "ObjectId") {
+      return res.status(404).send({
+        message: "Usuario nao encontrado" + req.params.userId,
+      });
     }
-  }, 0);
-
-  res.send({
-    mensagem: "Valor total das despesas: " + valorDespesas,
-  });
+    return res.status(400).send({
+      message:
+        "Ocorreu algum erro ao calcular receita usando o id " +
+        req.params.userId,
+    });
+  }
 };
 
 // Calcular o valor total das despesas
 exports.calcValueRevenue = async (req, res) => {
   const user = req.params.userId;
-  const transaction = await Transacao.find({ tipo: "receita" });
+  try {
+    const transaction = await Transacao.find({ tipo: "receita" });
 
-  const valorReceitas = transaction.reduce((total, transacao) => {
-    if (transacao.user == user) {
-      return total + parseFloat(transacao.valor);
-    } else {
-      return total;
+    const valorReceitas = transaction.reduce((total, transacao) => {
+      if (transacao.user == user) {
+        return total + parseFloat(transacao.valor);
+      } else {
+        return total;
+      }
+    }, 0);
+
+    return res.status(200).send({
+      mensagem: "Valor total das receitas: " + valorReceitas,
+    });
+  } catch (err) {
+    if (err.kind === "ObjectId") {
+      return res.status(404).send({
+        message: "Usuario nao encontrado" + req.params.userId,
+      });
     }
-  }, 0);
-
-  res.send({
-    mensagem: "Valor total das receitas: " + valorReceitas,
-  });
+    return res.status(400).send({
+      message:
+        "Ocorreu algum erro ao calcular despesa usando o id " +
+        req.params.userId,
+    });
+  }
 };

@@ -2,25 +2,24 @@ const Categoria = require("../model/app.model.categoria.js");
 const authMiddleware = require("../middlewares/app.middleware.auth.js");
 
 //Criando e salvando uma nova categoria
-
 exports.create = (req, res) => {
-  const { categoria, tipo } = req.body;
-  
-  Categoria.findOne({ categoria, tipo })
-    .then((categoria) => {
-      if (categoria) {
-        return res.status(400).send({ error: "Categoria já existe" });
-      }
-      const Category = new Categoria(req.body);
-      Category.save();
-      return res.send({ categoria: Category });
+  const category = new Categoria({
+    id: req.params._id,
+    categoria: req.body.categoria,
+    tipo: req.body.tipo,
+    user: req.userId,
+  });
+  category
+    .save()
+    .then((data) => {
+      res.status(201).send(data);
     })
     .catch((err) => {
-      return res.status(400).send({ error: "Não foi possivel criar categoria" });
-    }
-    );
-}
-
+      res.status(400).send({
+        message: err.message || "Ocorreu algum erro ao adicionar a categoria",
+      });
+    });
+};
 
 //Buscando todas as categorias cadastradas
 exports.findAll = (req, res) => {
@@ -118,4 +117,19 @@ exports.findAllRevenue = (req, res) => {
         message: err.message || "Ocorreu algum erro ao buscar as transações",
       });
     });
+};
+
+// Listar as categorias criadas pelo usuario passando o id dele como parametro
+exports.listCategoryUser = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const categoria = await Categoria.find({
+      user: req.params.userId,
+    }).populate("user");
+
+    return res.status(200).send({ categoria });
+  } catch (err) {
+    return res.status(404).send({ error: "Erro ao buscar transação" });
+  }
 };
