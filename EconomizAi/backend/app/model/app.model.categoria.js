@@ -10,6 +10,11 @@ const CategorySchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  user: {
+    type: mongoose.ObjectId,
+    ref: "Usuario",
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Categoria", CategorySchema);

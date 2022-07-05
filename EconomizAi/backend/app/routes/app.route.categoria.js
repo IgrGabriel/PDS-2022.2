@@ -15,4 +15,6 @@ module.exports = (app) => {
   app.get("/categoria/tipo/despesas", Categoria.findAllExpense);
 
   app.get("/categoria/tipo/receitas", Categoria.findAllRevenue);
+
+  app.get("/categoria/list/user/:userId", Categoria.listCategoryUser);
 };

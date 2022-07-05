@@ -7,6 +7,7 @@ exports.create = (req, res) => {
     id: req.params._id,
     categoria: req.body.categoria,
     tipo: req.body.tipo,
+    user: req.userId,
   });
   category
     .save()
@@ -116,4 +117,19 @@ exports.findAllRevenue = (req, res) => {
         message: err.message || "Ocorreu algum erro ao buscar as transações",
       });
     });
+};
+
+// Listar as categorias criadas pelo usuario passando o id dele como parametro
+exports.listCategoryUser = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const categoria = await Categoria.find({
+      user: req.params.userId,
+    }).populate("user");
+
+    return res.status(200).send({ categoria });
+  } catch (err) {
+    return res.status(404).send({ error: "Erro ao buscar transação" });
+  }
 };
