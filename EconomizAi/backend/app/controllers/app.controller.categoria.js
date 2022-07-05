@@ -2,23 +2,25 @@ const Categoria = require("../model/app.model.categoria.js");
 const authMiddleware = require("../middlewares/app.middleware.auth.js");
 
 //Criando e salvando uma nova categoria
+
 exports.create = (req, res) => {
-  const category = new Categoria({
-    id: req.params._id,
-    categoria: req.body.categoria,
-    tipo: req.body.tipo,
-  });
-  category
-    .save()
-    .then((data) => {
-      res.status(201).send(data);
+  const { categoria, tipo } = req.body;
+  
+  Categoria.findOne({ categoria, tipo })
+    .then((categoria) => {
+      if (categoria) {
+        return res.status(400).send({ error: "Categoria já existe" });
+      }
+      const Category = new Categoria(req.body);
+      Category.save();
+      return res.send({ categoria: Category });
     })
     .catch((err) => {
-      res.status(400).send({
-        message: err.message || "Ocorreu algum erro ao adicionar a categoria",
-      });
-    });
-};
+      return res.status(400).send({ error: "Não foi possivel criar categoria" });
+    }
+    );
+}
+
 
 //Buscando todas as categorias cadastradas
 exports.findAll = (req, res) => {
